@@ -59,6 +59,7 @@
       max-width: 500px;
       border-radius: 10px;
       text-align: center;
+      position: relative;
     }
 
     .close {
@@ -73,6 +74,24 @@
       color: black;
       text-decoration: none;
       cursor: pointer;
+    }
+
+    /* Progress bar styles */
+    .progress-container {
+      width: 100%;
+      background-color: #f3f3f3;
+      border-radius: 25px;
+      margin: 20px 0;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 30px;
+      background-color: #4CAF50;
+      border-radius: 25px;
+      text-align: center;
+      line-height: 30px;
+      color: white;
     }
   </style>
 </head>
@@ -93,20 +112,41 @@
   <div id="myModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
-      <p>Рус легенда руин</p>
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+      <p id="modalText"></p>
     </div>
   </div>
 
   <script>
     function showModal() {
       document.getElementById("myModal").style.display = "block";
+      var progressBar = document.getElementById("progressBar");
+      var modalText = document.getElementById("modalText");
+      var width = 0;
+      var interval = setInterval(frame, 50);
+
+      function frame() {
+        if (width >= 100) {
+          clearInterval(interval);
+          modalText.innerHTML = "Рус легенда руин";
+        } else {
+          width++;
+          progressBar.style.width = width + '%';
+          progressBar.innerHTML = width + '%';
+        }
+      }
     }
 
     function closeModal() {
       document.getElementById("myModal").style.display = "none";
+      document.getElementById("progressBar").style.width = '0%';
+      document.getElementById("progressBar").innerHTML = '0%';
+      document.getElementById("modalText").innerHTML = '';
     }
 
-    window.onclick = function(event) {
+    window.onclick = function (event) {
       if (event.target == document.getElementById("myModal")) {
         closeModal();
       }
